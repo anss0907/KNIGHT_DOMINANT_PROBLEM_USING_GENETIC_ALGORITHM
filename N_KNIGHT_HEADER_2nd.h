@@ -13,13 +13,11 @@ _______________________________________________________*/
 #define __KNIGHT__ 'O'
 #define __ATTACK__ 'X'
 #define __MAX__KNIGHTS__ 12
-#define __POP__ 100
+#define __POP__ 200
 // global variables
-// char board[__BOARD_SIZE__][__BOARD_SIZE__];
 char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__]; // this is for fitness function
-int chromosome[__POP__][__MAX__KNIGHTS__]; // this is for random generation of population and next population
+int chromosome[__POP__][__MAX__KNIGHTS__];           // this is for random generation of population and next population
 int fitness[__POP__];
-int crossOverPoints = __MAX__KNIGHTS__ / 2;
 const int nParents = __POP__ / 2; // half of population will be parents
 char sol[__BOARD_SIZE__][__BOARD_SIZE__];
 
@@ -215,12 +213,12 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
     // now we will perform cross over
     for (int k = 0; k < nParents; k = k + 2)
     {
-        for (int i = 0; i < __MAX__KNIGHTS__; i+=2)
+        for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
         {
             // even childs will take even values from even parents
             chromosome[nParents + k][i] = chromosome[k][i];
         }
-        for (int i = -1; i < __MAX__KNIGHTS__; i+=2)
+        for (int i = -1; i < __MAX__KNIGHTS__; i += 2)
         {
             // even childs will take odd values from odd parents
             chromosome[nParents + k][i] = chromosome[k + 1][i];
@@ -228,15 +226,15 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
     }
     for (int k = 1; k < nParents; k = k + 2)
     {
-        for (int i = 0; i < __MAX__KNIGHTS__; i+=2)
+        for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
         {
             // odd parents will take even values from odd parents
-            chromosome[nParents + k][i] = chromosome[k+1][i];
+            chromosome[nParents + k][i] = chromosome[k + 1][i];
         }
-        for (int i = -1; i < __MAX__KNIGHTS__; i+=2)
+        for (int i = -1; i < __MAX__KNIGHTS__; i += 2)
         {
             // odd parents will take odd values from even parents
-            chromosome[nParents + k][i] = chromosome[k ][i];
+            chromosome[nParents + k][i] = chromosome[k][i];
         }
     }
 
@@ -244,14 +242,14 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
     for (int pop = 0; pop < __POP__; pop++)
     {
         int index = (rand() % __MAX__KNIGHTS__);
-        int value = rand() % (__BOARD_SIZE__*__BOARD_SIZE__);
+        int value = rand() % (__BOARD_SIZE__ * __BOARD_SIZE__);
         chromosome[pop][index] = value;
         // this will give 1 random value to each population
     }
     // to incorporate randomization
     // i will do mutation somewhat differently
     srand(time(0));
-    for (int i = 0; i < rand()%__BOARD_SIZE__; i++)
+    for (int i = 0; i < rand() % __BOARD_SIZE__; i++)
     {
 
         for (int pop = 0; pop < __POP__; pop++)
@@ -307,7 +305,7 @@ will tell us the difference between next gen and previous gen*/
     for (int pop = 0; pop < __POP__; pop++)
     {
         printf("%d", fitness[pop]);
-        if(pop!=__POP__-1)
+        if (pop != __POP__ - 1)
             printf(",");
         if (pop % 10 == 0)
             printf("\n");

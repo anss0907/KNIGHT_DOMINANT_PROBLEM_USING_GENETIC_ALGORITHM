@@ -9,8 +9,6 @@ _______________________________________________________*/
 and user defined functionsare included in the header file*/
 int main()
 {
-
-    char sol[__BOARD_SIZE__][__BOARD_SIZE__];
     int isOver = 0, iter = 0, maxIter = 20000;
     Reset_Chrom_Board(chrom);
     RandomPOP(chrom, chromosome);
@@ -33,9 +31,9 @@ int main()
         Fitness(chrom, fitness);
         Sorting(chrom, fitness, chromosome);
         printf("Iteration number %d\n", iter);
-        Display_EMPTY_spaces(fitness);
+        // Display_EMPTY_spaces(fitness);
         isOver = Checking_Solutions(fitness, sol);
-        if (isOver == 1)
+        if (isOver)
         {
             // printf("ne = %d\n", ne); // will remove later
             printf("Solution found after %d iterations!\n\n", iter);
@@ -43,7 +41,7 @@ int main()
             Solution_points(sol);
             break;
         }
-        if (iter == maxIter)
+        if (iter == maxIter-1)
             printf("No solution found after %d iterations!\n\n", iter);
         // chrom will be reset in beforing next population
         Next_POP(chromosome, chrom);
