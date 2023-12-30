@@ -306,9 +306,28 @@ will tell us the difference between next gen and previous gen*/
 {
     for (int pop = 0; pop < __POP__; pop++)
     {
-        printf("%d,", fitness[pop]);
-        if (pop % 10 == 9)
+        printf("%d", fitness[pop]);
+        if(pop!=__POP__-1)
+            printf(",");
+        if (pop % 10 == 0)
             printf("\n");
+    }
+    printf("\n");
+}
+void Solution_points(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
+{
+    printf("Knights were placed at the following positions:\n");
+    int found_knights = 0;
+    for (int r = 0; r < __BOARD_SIZE__; r++)
+    {
+        for (int c = 0; c < __BOARD_SIZE__; c++)
+        {
+            if (sol[r][c] == __KNIGHT__)
+            {
+                printf("(%d,%d)", r, c);
+                found_knights == __MAX__KNIGHTS__ - 1 ? printf("and ") : printf(",");
+            }
+        }
     }
 }
 void Solution_Board(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
