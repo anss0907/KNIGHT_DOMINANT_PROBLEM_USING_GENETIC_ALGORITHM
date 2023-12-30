@@ -9,6 +9,7 @@ _______________________________________________________*/
 and user defined functionsare included in the header file*/
 int main()
 {
+    //  now trying to make it generic
     int isOver = 0, iter = 0, maxIter = 20000;
     Reset_Chrom_Board(chrom);
     RandomPOP(chrom, chromosome);
