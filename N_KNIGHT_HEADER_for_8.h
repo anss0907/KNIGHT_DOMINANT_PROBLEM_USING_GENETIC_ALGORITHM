@@ -24,17 +24,18 @@ char sol[__BOARD_SIZE__][__BOARD_SIZE__];
 /*
     I have defined following functions here
     functions summary
-    1. Reset_Chrom_Board
-    2. RandomPOP
-    3. attacks
-    4. Fitness
-    5. swap_int
-    6. swap_char
-    7. Sorting
-    8. Next_POP
-    9. Checking_Solutions
+    01. Reset_Chrom_Board
+    02. RandomPOP
+    03. attacks
+    04. Fitness
+    05. swap_int
+    06. swap_char
+    07. Sorting
+    08. Next_POP
+    09. Checking_Solutions
     10. Display_EMPTY_spaces
-    11. Solution_Board
+    11. Solution_points
+    12. Solution_Board
 */
 // function prototypes
 void Reset_Chrom_Board(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__])
@@ -65,6 +66,8 @@ void RandomPOP(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__], int chromoso
             chromosome[i][alloted_knights] = rand() % (__BOARD_SIZE__ * __BOARD_SIZE__);
             int row = chromosome[i][alloted_knights] / __BOARD_SIZE__;
             int col = chromosome[i][alloted_knights] % __BOARD_SIZE__;
+            if(row==0 || row ==7|| col ==0 || col ==7)
+                continue;
             if (chrom[i][row][col] != __KNIGHT__)
             {
                 chrom[i][row][col] = __KNIGHT__; // where O present knights

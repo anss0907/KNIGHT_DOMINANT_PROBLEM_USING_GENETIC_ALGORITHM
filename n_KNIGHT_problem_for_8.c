@@ -4,7 +4,7 @@ _________________________________________________________
 This is being written to solve the n_KNIGHT problem using
 Genetic Algorithm.
 _______________________________________________________*/
-#include "n_KNIGHT_HEADER_2nd.h"
+#include "n_KNIGHT_HEADER_for_8.h"
 /* all macros, global variables, arrays
 and user defined functionsare included in the header file*/
 int main()
@@ -48,9 +48,9 @@ int main()
         attacks(chrom);
     }
     printf("\nNo. of knights in this solution = %d\n", __MAX__KNIGHTS__);
-    // int x = 3;
-    // printf("Press any key to exit...>> \n");
-    // scanf("%d", &x);
+    int x = 3;
+    printf("Press any key to exit...>> ");
+    scanf("%d", &x);
 
     return 0;
 }
