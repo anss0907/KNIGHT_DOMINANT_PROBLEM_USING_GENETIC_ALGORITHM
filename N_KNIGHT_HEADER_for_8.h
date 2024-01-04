@@ -208,7 +208,7 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
             // even childs will take even values from even parents
             chromosome[nParents + k][i] = chromosome[k][i];
         }
-        for (int i = -1; i < __MAX__KNIGHTS__; i += 2)
+        for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
         {
             // even childs will take odd values from odd parents
             chromosome[nParents + k][i] = chromosome[k + 1][i];
@@ -221,7 +221,7 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
             // odd parents will take even values from odd parents
             chromosome[nParents + k][i] = chromosome[k + 1][i];
         }
-        for (int i = -1; i < __MAX__KNIGHTS__; i += 2)
+        for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
         {
             // odd parents will take odd values from even parents
             chromosome[nParents + k][i] = chromosome[k][i];
@@ -229,6 +229,7 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
     }
 
     // after that we will perform mutation on the new generation
+    srand(time(0));
     for (int pop = 0; pop < __POP__; pop++)
     {
         int index = (rand() % __MAX__KNIGHTS__);
@@ -243,8 +244,6 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
         chromosome[pop][index] = value;
         // this will give 1 random value to each population
     }
-    // to incorporate randomization
-    srand(time(0));
     for (int i = nParents; i < ((rand() % (__BOARD_SIZE__ - nParents)) + nParents); i++)
     {
         for (int pop = 0; pop < __POP__; pop++)
