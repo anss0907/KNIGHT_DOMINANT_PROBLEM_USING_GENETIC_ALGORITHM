@@ -18,9 +18,8 @@ int main()
         iter++;
         Fitness(chrom, fitness);
         Sorting(chrom, fitness, chromosome);
-        if(iter%1000==0)
         printf("Iteration number %d\n", iter);
-        // Display_EMPTY_spaces(fitness);
+        // Display_EMPTY_spaces(fitness); // for debugging purposes
         isOver = !fitness[0];
         if (isOver)
         {
