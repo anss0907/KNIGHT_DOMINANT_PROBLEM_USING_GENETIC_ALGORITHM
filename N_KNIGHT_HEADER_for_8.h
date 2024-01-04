@@ -46,9 +46,7 @@ void Reset_Chrom_Board(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__])
         for (int r = 0; r < __BOARD_SIZE__; r++)
         {
             for (int c = 0; c < __BOARD_SIZE__; c++)
-            {
                 chrom[p][r][c] = __EMPTY__;
-            }
         }
     }
 }
@@ -61,10 +59,12 @@ void RandomPOP(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__], int chromoso
         int alloted_knights = 0;
         while (alloted_knights < __MAX__KNIGHTS__)
         {
-            chromosome[i][alloted_knights] = rand() % (__BOARD_SIZE__ * __BOARD_SIZE__);
+            int x = __BOARD_SIZE__ * __BOARD_SIZE__ - __BOARD_SIZE__ - 2;
+            int y = __BOARD_SIZE__ + 1;
+            chromosome[i][alloted_knights] = (rand() % (x - y)) + y;
             int row = chromosome[i][alloted_knights] / __BOARD_SIZE__; // this will give us row
             int col = chromosome[i][alloted_knights] % __BOARD_SIZE__; // this will give us column
-            if (row == 0 || row == 7 || col == 0 || col == 7)
+            if (!row || row == 7 || !col || col == 7)
                 continue; // no knight should be at boundary of the board
             if (chrom[i][row][col] != __KNIGHT__)
             {
@@ -85,24 +85,22 @@ void attacks(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__])
             {
                 if (chrom[p][r][c] == __KNIGHT__)
                 { // 8 cases of knight attacks
-                    int i = r;
-                    int j = c; // these are two are due to i added a previous code here
-                    if (i + 2 < __BOARD_SIZE__ && j + 1 < __BOARD_SIZE__ && chrom[p][i + 2][j + 1] != __KNIGHT__)
-                        chrom[p][i + 2][j + 1] = __ATTACK__;
-                    if (i + 2 < __BOARD_SIZE__ && j - 1 >= 0 && chrom[p][i + 2][j - 1] != __KNIGHT__)
-                        chrom[p][i + 2][j - 1] = __ATTACK__;
-                    if (i - 2 >= 0 && j + 1 < __BOARD_SIZE__ && chrom[p][i - 2][j + 1] != __KNIGHT__)
-                        chrom[p][i - 2][j + 1] = __ATTACK__;
-                    if (i - 2 >= 0 && j - 1 >= 0 && chrom[p][i - 2][j - 1] != __KNIGHT__)
-                        chrom[p][i - 2][j - 1] = __ATTACK__;
-                    if (i + 1 < __BOARD_SIZE__ && j + 2 < __BOARD_SIZE__ && chrom[p][i + 1][j + 2] != __KNIGHT__)
-                        chrom[p][i + 1][j + 2] = __ATTACK__;
-                    if (i + 1 < __BOARD_SIZE__ && j - 2 >= 0 && chrom[p][i + 1][j - 2] != __KNIGHT__)
-                        chrom[p][i + 1][j - 2] = __ATTACK__;
-                    if (i - 1 >= 0 && j + 2 < __BOARD_SIZE__ && chrom[p][i - 1][j + 2] != __KNIGHT__)
-                        chrom[p][i - 1][j + 2] = __ATTACK__;
-                    if (i - 1 >= 0 && j - 2 >= 0 && chrom[p][i - 1][j - 2] != __KNIGHT__)
-                        chrom[p][i - 1][j - 2] = __ATTACK__;
+                    if (r + 2 < __BOARD_SIZE__ && c + 1 < __BOARD_SIZE__ && chrom[p][r + 2][c + 1] != __KNIGHT__)
+                        chrom[p][r + 2][c + 1] = __ATTACK__;
+                    if (r + 2 < __BOARD_SIZE__ && c - 1 >= 0 && chrom[p][r + 2][c - 1] != __KNIGHT__)
+                        chrom[p][r + 2][c - 1] = __ATTACK__;
+                    if (r - 2 >= 0 && c + 1 < __BOARD_SIZE__ && chrom[p][r - 2][c + 1] != __KNIGHT__)
+                        chrom[p][r - 2][c + 1] = __ATTACK__;
+                    if (r - 2 >= 0 && c - 1 >= 0 && chrom[p][r - 2][c - 1] != __KNIGHT__)
+                        chrom[p][r - 2][c - 1] = __ATTACK__;
+                    if (r + 1 < __BOARD_SIZE__ && c + 2 < __BOARD_SIZE__ && chrom[p][r + 1][c + 2] != __KNIGHT__)
+                        chrom[p][r + 1][c + 2] = __ATTACK__;
+                    if (r + 1 < __BOARD_SIZE__ && c - 2 >= 0 && chrom[p][r + 1][c - 2] != __KNIGHT__)
+                        chrom[p][r + 1][c - 2] = __ATTACK__;
+                    if (r - 1 >= 0 && c + 2 < __BOARD_SIZE__ && chrom[p][r - 1][c + 2] != __KNIGHT__)
+                        chrom[p][r - 1][c + 2] = __ATTACK__;
+                    if (r - 1 >= 0 && c - 2 >= 0 && chrom[p][r - 1][c - 2] != __KNIGHT__)
+                        chrom[p][r - 1][c - 2] = __ATTACK__;
                 }
             }
         }
@@ -186,9 +184,7 @@ void Sorting(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__], int fitness[__
                     }
                 }
                 for (int knights = 0; knights < __MAX__KNIGHTS__; knights++)
-                {
                     swap_int(&chromosome[sp][knights], &chromosome[b][knights]);
-                }
             }
         }
     }
@@ -237,16 +233,21 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
     for (int pop = 0; pop < __POP__; pop++)
     {
         int index = (rand() % __MAX__KNIGHTS__);
-        int value = rand() % (__BOARD_SIZE__ * __BOARD_SIZE__);
+        int x = __BOARD_SIZE__ * __BOARD_SIZE__ - __BOARD_SIZE__ - 2;
+        int y = __BOARD_SIZE__ + 1;
+        int value = (rand() % (x - y)) + y;
+        if (!x || !y || x == __BOARD_SIZE__ - 1 || y == __BOARD_SIZE__ - 1)
+        {
+            pop--;
+            continue;
+        }
         chromosome[pop][index] = value;
         // this will give 1 random value to each population
     }
     // to incorporate randomization
-    // i will do mutation somewhat differently
     srand(time(0));
-    for (int i = 0; i < rand() % __BOARD_SIZE__; i++)
+    for (int i = nParents; i < ((rand() % (__BOARD_SIZE__-nParents))+nParents); i++)
     {
-
         for (int pop = 0; pop < __POP__; pop++)
         {
             for (int knights = 0; knights < __MAX__KNIGHTS__; knights++)
@@ -255,7 +256,14 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
                 {
                     if (chromosome[pop][knights] == chromosome[pop][k])
                     {
-                        chromosome[pop][k] = rand() % 64;
+                        int x = __BOARD_SIZE__ * __BOARD_SIZE__ - __BOARD_SIZE__ - 2;
+                        int y = __BOARD_SIZE__ + 1;
+                        if (!x || !y || x == __BOARD_SIZE__ - 1 || y == __BOARD_SIZE__ - 1)
+                        {
+                            k--;
+                            continue;
+                        }
+                        chromosome[pop][k] = (rand() % (x - y)) + y;
                     }
                 }
             }
@@ -275,24 +283,6 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
         }
     }
 }
-int Checking_Solutions(int fitness[__POP__], char sol[__BOARD_SIZE__][__BOARD_SIZE__])
-{
-    // i will check for solution after sorting
-    // so no need to find fitest chromosome
-    // it will be at start
-    // so i will check for empty spaces in the first chromosome
-    int spaces = fitness[0];
-    for (int r = 0; r < __BOARD_SIZE__; r++)
-    {
-        for (int j = 0; j < __BOARD_SIZE__; j++)
-            sol[r][j] = chrom[0][r][j];
-    }
-    if (spaces == 0)
-        return 1;
-    else
-        return 0;
-}
-
 void Display_EMPTY_spaces(int fitness[__POP__])
 /* This is for debugging purposes
 will tell us the difference between next gen and previous gen*/
@@ -322,6 +312,7 @@ void Solution_points(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
             }
         }
     }
+    printf("\nNo. of knights in this solution = %d\n", __MAX__KNIGHTS__);
 }
 void Solution_Board(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
 {

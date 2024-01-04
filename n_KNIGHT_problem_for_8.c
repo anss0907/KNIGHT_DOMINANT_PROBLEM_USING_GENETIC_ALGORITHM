@@ -9,36 +9,23 @@ _______________________________________________________*/
 and user defined functionsare included in the header file*/
 int main()
 {
-    int isOver = 0, iter = 0, maxIter = 20000;
+    int isOver = 12, iter = 0, maxIter = 10000;
     Reset_Chrom_Board(chrom);
     RandomPOP(chrom, chromosome);
     attacks(chrom);
-    // int ne = 0; // will remove later
-    // int checker[1000];
     while (iter <= maxIter)
     {
-        // if(iter>900)
-        // {checker[iter]=fitness[0];
-        // if (checker[iter]> checker[iter-100])
-        // {
-        //     Reset_Chrom_Board(chrom);
-        //     RandomPOP(chrom, chromosome);
-        //     attacks(chrom);
-        //     iter = 0;
-        //     ne++;
-        // } }// will remove later
         iter++;
         Fitness(chrom, fitness);
         Sorting(chrom, fitness, chromosome);
         printf("Iteration number %d\n", iter);
         // Display_EMPTY_spaces(fitness);
-        isOver = Checking_Solutions(fitness, sol);
+        isOver = !fitness[0];
         if (isOver)
         {
-            // printf("ne = %d\n", ne); // will remove later
             printf("Solution found after %d iterations!\n\n", iter);
-            Solution_Board(sol);
-            Solution_points(sol);
+            Solution_Board(chrom[0]);
+            Solution_points(chrom[0]);
             break;
         }
         if (iter == maxIter-1)
@@ -47,10 +34,9 @@ int main()
         Next_POP(chromosome, chrom);
         attacks(chrom);
     }
-    printf("\nNo. of knights in this solution = %d\n", __MAX__KNIGHTS__);
     int x = 3;
     printf("Press any key to exit...>> ");
-    scanf("%d", &x);
+    scanf("%d", &x); // to hold the screen
 
     return 0;
 }
