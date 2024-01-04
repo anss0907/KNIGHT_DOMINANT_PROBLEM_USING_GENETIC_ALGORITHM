@@ -9,15 +9,16 @@ _______________________________________________________*/
 and user defined functionsare included in the header file*/
 int main()
 {
-    int isOver = 12, iter = 0, maxIter = 2000;
+    int isOver = 12, iter = 0, maxIter = 10000;
     Reset_Chrom_Board(chrom);
     RandomPOP(chrom, chromosome);
     attacks(chrom);
-    while (iter <= maxIter)
+    while (iter < maxIter)
     {
         iter++;
         Fitness(chrom, fitness);
         Sorting(chrom, fitness, chromosome);
+        if(iter%1000==0)
         printf("Iteration number %d\n", iter);
         // Display_EMPTY_spaces(fitness);
         isOver = !fitness[0];

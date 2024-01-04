@@ -32,10 +32,9 @@ char sol[__BOARD_SIZE__][__BOARD_SIZE__];
     06. swap_char
     07. Sorting
     08. Next_POP
-    09. Checking_Solutions
-    10. Display_EMPTY_spaces
-    11. Solution_points
-    12. Solution_Board
+    09. Display_EMPTY_spaces
+    10. Solution_points
+    11. Solution_Board
 */
 // function prototypes
 void Reset_Chrom_Board(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__])
