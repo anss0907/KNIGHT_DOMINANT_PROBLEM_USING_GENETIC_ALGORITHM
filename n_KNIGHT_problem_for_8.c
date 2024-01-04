@@ -9,7 +9,7 @@ _______________________________________________________*/
 and user defined functionsare included in the header file*/
 int main()
 {
-    int isOver = 12, iter = 0, maxIter = 10000;
+    int isOver = 12, iter = 0, maxIter = 2000;
     Reset_Chrom_Board(chrom);
     RandomPOP(chrom, chromosome);
     attacks(chrom);

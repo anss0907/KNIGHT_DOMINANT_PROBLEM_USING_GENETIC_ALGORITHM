@@ -85,22 +85,22 @@ void attacks(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__])
             {
                 if (chrom[p][r][c] == __KNIGHT__)
                 { // 8 cases of knight attacks
-                    if (r + 2 < __BOARD_SIZE__ && c + 1 < __BOARD_SIZE__ && chrom[p][r + 2][c + 1] != __KNIGHT__)
-                        chrom[p][r + 2][c + 1] = __ATTACK__;
-                    if (r + 2 < __BOARD_SIZE__ && c - 1 >= 0 && chrom[p][r + 2][c - 1] != __KNIGHT__)
-                        chrom[p][r + 2][c - 1] = __ATTACK__;
-                    if (r - 2 >= 0 && c + 1 < __BOARD_SIZE__ && chrom[p][r - 2][c + 1] != __KNIGHT__)
-                        chrom[p][r - 2][c + 1] = __ATTACK__;
-                    if (r - 2 >= 0 && c - 1 >= 0 && chrom[p][r - 2][c - 1] != __KNIGHT__)
-                        chrom[p][r - 2][c - 1] = __ATTACK__;
-                    if (r + 1 < __BOARD_SIZE__ && c + 2 < __BOARD_SIZE__ && chrom[p][r + 1][c + 2] != __KNIGHT__)
-                        chrom[p][r + 1][c + 2] = __ATTACK__;
-                    if (r + 1 < __BOARD_SIZE__ && c - 2 >= 0 && chrom[p][r + 1][c - 2] != __KNIGHT__)
-                        chrom[p][r + 1][c - 2] = __ATTACK__;
-                    if (r - 1 >= 0 && c + 2 < __BOARD_SIZE__ && chrom[p][r - 1][c + 2] != __KNIGHT__)
-                        chrom[p][r - 1][c + 2] = __ATTACK__;
-                    if (r - 1 >= 0 && c - 2 >= 0 && chrom[p][r - 1][c - 2] != __KNIGHT__)
-                        chrom[p][r - 1][c - 2] = __ATTACK__;
+                    int a = 2;
+                    int b = -1;
+                    for (int iter = 0; iter < 8; iter++)
+                    {
+                        if (iter == 8 / 2)
+                        {
+                            a = 1;
+                            b = -2;
+                        }
+                        if (iter % 2 == 1)
+                            a = -a;
+                        else
+                            b = -b;
+                        if (r + a >= 0 && c + b >= 0 && r + a < __BOARD_SIZE__ && c + b < __BOARD_SIZE__ && chrom[p][r + a][c + b] != __KNIGHT__)
+                            chrom[p][r + a][c + b] = __ATTACK__;
+                    }
                 }
             }
         }
@@ -246,7 +246,7 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
     }
     // to incorporate randomization
     srand(time(0));
-    for (int i = nParents; i < ((rand() % (__BOARD_SIZE__-nParents))+nParents); i++)
+    for (int i = nParents; i < ((rand() % (__BOARD_SIZE__ - nParents)) + nParents); i++)
     {
         for (int pop = 0; pop < __POP__; pop++)
         {
