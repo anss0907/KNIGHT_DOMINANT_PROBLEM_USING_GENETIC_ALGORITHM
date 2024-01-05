@@ -1,12 +1,8 @@
-/*_______________________________________________________
-Written by Muhammad Anss (2022-MC-1) on December 12,2023
-_________________________________________________________
-
-_______________________________________________________*/
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+// This is the C++ version of n_KNIGHT_PROBLEM
+#include <iostream> //inplace of stdio.h
+#include<cstdlib> // inplace of stdlib.h
+#include<ctime> // inplace of time.h
+using namespace std;
 
 #define __BOARD_SIZE__ 8
 #define __EMPTY__ ' '
@@ -193,7 +189,7 @@ void Sorting(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__], int fitness[__
  now we will select first of the combinations as parents
  and will perform cross over and mutation on them
  new generation will born*/
-void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__])
+ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__])
 {
     // Parent selection
     // survival of the fitest
@@ -272,17 +268,17 @@ will tell us the difference between next gen and previous gen*/
 {
     for (int pop = 0; pop < __POP__; pop++)
     {
-        printf("%d", fitness[pop]);
+        cout<<fitness[pop];
         if (pop != __POP__ - 1)
-            printf(",");
+            cout<<",";
         if (pop % 10 == 0)
-            printf("\n");
+            cout<<endl;
     }
-    printf("\n");
+    cout<<endl;
 }
 void Solution_points(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
 {
-    printf("Knights were placed at the following positions:\n");
+    cout<<"Knights were placed at the following positions:";
     int found_knights = 0;
     for (int r = 0; r < __BOARD_SIZE__; r++)
     {
@@ -290,34 +286,32 @@ void Solution_points(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
         {
             if (sol[r][c] == __KNIGHT__)
             {
-                printf("(%d,%d)", r+1, c+1);
+                cout<<"("<<r+1<<","<<c+1<<")";
                 found_knights == __MAX__KNIGHTS__ - 1 ? printf("and ") : printf(",");
             }
         }
     }
-    printf("\nNo. of knights in this solution = %d\n", found_knights);
+    cout<<endl<<"No. of knights in this solution = "<<found_knights<<endl;
 }
 void Solution_Board(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
 {
-    printf("\n -----------------\n");
-    printf(" ");
+    cout<<endl<<" -----------------"<<endl;
+    cout<<" ";
     for (int i = 0; i < __BOARD_SIZE__; i++) // this will change
-        printf("|%d", i + 1);
-    printf("|\n -----------------\n");
+        cout<<"|"<<i+1;
+    cout<<""<<endl<<" -----------------"<<endl;
     for (int i = 0; i < __BOARD_SIZE__; i++)
     {
-        printf("%d", i + 1);
+        cout<<i+1;
         for (int j = 0; j < __BOARD_SIZE__; j++)
         {
             if (sol[i][j] == __EMPTY__)
-                printf("|%c", sol[i][j]);
+                cout<<"|"<<sol[i][j];
             else if (sol[i][j] == __ATTACK__)
-                printf("|\033[0;31m%c\033[0m", sol[i][j]); // red
+                cout << "|" << "\033[0;31m" << sol[i][j] << "\033[0m"; // red
             else if (sol[i][j] == __KNIGHT__)
-                printf("|\033[0;34m%c\033[0m", sol[i][j]); // blue
+                cout << "|" << "\033[0;34m" << sol[i][j] << "\033[0m"; // blue
         }
         printf("|\n -----------------\n");
     }
 }
-
-// end of header file

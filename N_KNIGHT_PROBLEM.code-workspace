@@ -4,5 +4,9 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"n_knight_header_for_8.h": "c"
+		}
+	}
 }
