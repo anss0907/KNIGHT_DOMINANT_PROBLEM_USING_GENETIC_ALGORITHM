@@ -3,12 +3,13 @@
 from random import sample
 from colorama import Fore
 from os import system
+
 __BOARD_SIZE__ = 8
 __EMPTY__ = ' '
 __KNIGHT__ = 'O'
 __ATTACK__ = 'X'
 __MAX__KNIGHTS__ = 12
-__POP__ = 100
+__POP__ = 200
 Possible_Positions = []
 for i in range(__BOARD_SIZE__ * __BOARD_SIZE__):
     x = i // __BOARD_SIZE__
@@ -17,7 +18,8 @@ for i in range(__BOARD_SIZE__ * __BOARD_SIZE__):
         Possible_Positions.append(i)
 # print(Possible_Positions)
 # chrom is for fitness funciton whereas chromosome is to generate random population
-# chrom = [[[" " for i in range(__BOARD_SIZE__)] for c in range(__BOARD_SIZE__)]for p in range(__POP__)]
+chrom = [[[" " for i in range(__BOARD_SIZE__)] for c in range(__BOARD_SIZE__)]
+         for p in range(__POP__)]
 # this is equiavalent to reset the boards
 chromosome = [
     sample(Possible_Positions, __MAX__KNIGHTS__) for p in range(__POP__)
@@ -45,30 +47,18 @@ def Board_Filler(chromosome):
             for c in range(__BOARD_SIZE__):
                 if (chrom[p][r][c] == __KNIGHT__):
                     # 8 cases of knight attacks
-                    if (r + 2 < __BOARD_SIZE__ and c + 1 < __BOARD_SIZE__
-                            and chrom[p][r + 2][c + 1] != __KNIGHT__):
-                        chrom[p][r + 2][c + 1] = __ATTACK__
-                    if (r + 2 < __BOARD_SIZE__ and c - 1 >= 0
-                            and chrom[p][r + 2][c - 1] != __KNIGHT__):
-                        chrom[p][r + 2][c - 1] = __ATTACK__
-                    if (r - 2 >= 0 and c + 1 < __BOARD_SIZE__
-                            and chrom[p][r - 2][c + 1] != __KNIGHT__):
-                        chrom[p][r - 2][c + 1] = __ATTACK__
-                    if (r - 2 >= 0 and c - 1 >= 0
-                            and chrom[p][r - 2][c - 1] != __KNIGHT__):
-                        chrom[p][r - 2][c - 1] = __ATTACK__
-                    if (r + 1 < __BOARD_SIZE__ and c + 2 < __BOARD_SIZE__
-                            and chrom[p][r + 1][c + 2] != __KNIGHT__):
-                        chrom[p][r + 1][c + 2] = __ATTACK__
-                    if (r + 1 < __BOARD_SIZE__ and c - 2 >= 0
-                            and chrom[p][r + 1][c - 2] != __KNIGHT__):
-                        chrom[p][r + 1][c - 2] = __ATTACK__
-                    if (r - 1 >= 0 and c + 2 < __BOARD_SIZE__
-                            and chrom[p][r - 1][c + 2] != __KNIGHT__):
-                        chrom[p][r - 1][c + 2] = __ATTACK__
-                    if (r - 1 >= 0 and c - 2 >= 0
-                            and chrom[p][r - 1][c - 2] != __KNIGHT__):
-                        chrom[p][r - 1][c - 2] = __ATTACK__
+                    a = 2
+                    b = -1
+                    for iter in range(8):
+                        if iter == 8 / 2:
+                            a = 1
+                            b = -2
+                        if iter % 2:
+                            a = -a
+                        else:
+                            b = -b
+                        if 0 <= r + a < __BOARD_SIZE__ and 0 <= c + b < __BOARD_SIZE__ and chrom[p][r + a][c + b] != __KNIGHT__:
+                            chrom[p][r + a][c + b] = __ATTACK__
     return chrom
 
 
@@ -94,7 +84,8 @@ def Sorting(fitness, chrom):
             if (fitness[i] > fitness[j]):
                 fitness[i], fitness[j] = fitness[j], fitness[i]
                 for k in range(__MAX__KNIGHTS__):
-                    chromosome[i][k], chromosome[j][k] = chromosome[j][k], chromosome[i][k]
+                    chromosome[i][k], chromosome[j][k] = chromosome[j][
+                        k], chromosome[i][k]
     return fitness, chromosome
 
 
@@ -111,21 +102,17 @@ def Next_POP(chromosome):
         for i in range(1, __MAX__KNIGHTS__, 2):
             chromosome[nParents + k][i] = chromosome[k][i]
     # mutation time
-    for p in range(__POP__):
+    for p in range(nParents, __POP__):
         index = int(sample(range(__MAX__KNIGHTS__), 1)[0])
         value = int(sample(Possible_Positions, 1)[0])
+        while(value in chromosome[p]):
+            value = int(sample(Possible_Positions, 1)[0])
         chromosome[p][index] = value
-    #some extra code to make sure no two values are same
-    for p in range(__POP__):
-        for knights in range(__MAX__KNIGHTS__):
-            for k in range(knights + 1, __MAX__KNIGHTS__):
-                if chromosome[p][knights] == chromosome[p][k]:
-                    chromosome[p][k] = int(sample(Possible_Positions, 1)[0])
     return chromosome
 
 
 def Solution_Points(chromome):
-    print("Knights were placed at the following points\n")
+    print("Knights were placed at the following points", end="")
     found_knights = 0
     for k in range(__MAX__KNIGHTS__):
         x = chromome[0][k] // __BOARD_SIZE__
@@ -138,11 +125,11 @@ def Solution_Points(chromome):
 # print gird
 def Solution_Board(sol):
     print(Fore.LIGHTYELLOW_EX, end="")
-    print(" ", "-" * 17, sep="")
+    print(" ", "-" * (2*__BOARD_SIZE__+1), sep="")
     print(" ", end="")
     for i in range(__BOARD_SIZE__):  # this will change
         print("|", i + 1, sep="", end="")
-    print("|\n", "-" * 17)
+    print("|\n", "-" * (2*__BOARD_SIZE__+1))
     for i in range(__BOARD_SIZE__):
         print("", i + 1, sep="", end="")
         for j in range(__BOARD_SIZE__):
@@ -153,10 +140,10 @@ def Solution_Board(sol):
                 print(Fore.RED, sol[i][j], sep="", end="")
                 print(Fore.LIGHTYELLOW_EX, end="")
             elif (sol[i][j] == __KNIGHT__):
-                print(Fore.LIGHTBLACK_EX, sol[i][j], sep="", end="")
+                print(Fore.MAGENTA, sol[i][j], sep="", end="")
                 print(Fore.LIGHTYELLOW_EX, end="")
-        print("|\n", "-" * 17)
-    print("")
+        print("|\n", "-" * (2*__BOARD_SIZE__+1))
+    print(end="")
 
 
 ###########main Program##########
@@ -164,17 +151,18 @@ def Solution_Board(sol):
 # Solution_Board(chrom[0])
 # random population is already generated and stored in chromosome
 chrom = Board_Filler(chromosome)
-for i in range(20000):
+for i in range(1000):
     fitness, min_fitness = Fitness(chrom, fitness)
     fitness, chromosome = Sorting(fitness, chromosome)
     # print(chromosome)
-    if(i%1==0):
+    if (i % 1 == 0):
         system("cls")
         print("Generation", i)
-        print(f"have {fitness[0]} spaces")
+        print(f"most fittest individual have {fitness[0]} spaces")
         # print("Fitness",fitness)
         Solution_Board(chrom[0])
     if (min_fitness == 0):
+        system("cls")
         print("Solution found at generation", i)
         Solution_Board(chrom[0])
         Solution_Points(chromosome)
