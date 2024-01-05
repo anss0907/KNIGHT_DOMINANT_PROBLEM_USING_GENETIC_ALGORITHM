@@ -9,7 +9,7 @@ _______________________________________________________*/
 and user defined functionsare included in the header file*/
 int main()
 {
-    int isOver = 12, iter = 0, maxIter = 2000;
+    int isOver = 12, iter = 0, maxIter = 5000;
     Reset_Chrom_Board(chrom);
     RandomPOP(chrom, chromosome);
     attacks(chrom);
@@ -22,10 +22,9 @@ int main()
         {
             system("cls");
             printf("Iteration number %d\n", iter);
-            printf("Most fit chromosome is: %d\n", fitness[0]);
             Solution_Board(chrom[0]);
-            // Display_EMPTY_spaces(fitness); // for debugging purposes
         }
+        // Display_EMPTY_spaces(fitness); // for debugging purposes
         isOver = !fitness[0];
         if (isOver)
         {

@@ -93,7 +93,7 @@ void attacks(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__])
                             a = 1;
                             b = -2;
                         }
-                        if (iter % 2 == 1)
+                        if (iter % 2)
                             a = -a;
                         else
                             b = -b;
@@ -230,13 +230,22 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
 
     // after that we will perform mutation on the new generation
     srand(time(0));
-    for (int pop = 0; pop < __POP__; pop++)
+    for (int pop = 1; pop < __POP__; pop++)
     {
+        int checker_for_redundant_value=0;
         int index = (rand() % __MAX__KNIGHTS__);
         int x = __BOARD_SIZE__ * __BOARD_SIZE__ - __BOARD_SIZE__ - 2;
         int y = __BOARD_SIZE__ + 1;
         int value = (rand() % (x - y)) + y;
-        if (!x || !y || x == __BOARD_SIZE__ - 1 || y == __BOARD_SIZE__ - 1)
+        for (int v = v; v < __MAX__KNIGHTS__; v++)
+        {
+            if(chromosome[pop][v]==value)
+            {
+                checker_for_redundant_value=1;
+                break;
+            }
+        }
+        if (!x || !y || x == __BOARD_SIZE__ - 1 || y == __BOARD_SIZE__ - 1||checker_for_redundant_value)
         {
             pop--;
             continue;
@@ -244,33 +253,9 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
         chromosome[pop][index] = value;
         // this will give 1 random value to each population
     }
-    for (int i = nParents; i < ((rand() % (__BOARD_SIZE__ - nParents)) + nParents); i++)
-    {
-        for (int pop = 0; pop < __POP__; pop++)
-        {
-            for (int knights = 0; knights < __MAX__KNIGHTS__; knights++)
-            {
-                for (int k = knights + 1; k < __MAX__KNIGHTS__; k++)
-                {
-                    if (chromosome[pop][knights] == chromosome[pop][k])
-                    {
-                        int x = __BOARD_SIZE__ * __BOARD_SIZE__ - __BOARD_SIZE__ - 2;
-                        int y = __BOARD_SIZE__ + 1;
-                        if (!x || !y || x == __BOARD_SIZE__ - 1 || y == __BOARD_SIZE__ - 1)
-                        {
-                            k--;
-                            continue;
-                        }
-                        chromosome[pop][k] = (rand() % (x - y)) + y;
-                    }
-                }
-            }
-        }
-    }
     // now we will convert the chromosome array to chrom array
     // reseting the chrom array
     Reset_Chrom_Board(chrom);
-    srand(time(0));
     for (int i = 0; i < __POP__; i++)
     {
         for (int knights = 0; knights < __MAX__KNIGHTS__; knights++)
