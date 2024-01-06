@@ -117,7 +117,7 @@ def Solution_Points(chromome):
     for k in range(__MAX__KNIGHTS__):
         x = chromome[0][k] // __BOARD_SIZE__
         y = chromome[0][k] % __BOARD_SIZE__
-        print(f"({x},{y})", end=" ")
+        print(f"({x+1},{y+1})", end=" ")
         found_knights += 1
     print("\nNo. of knights placed in this Board were", found_knights)
 

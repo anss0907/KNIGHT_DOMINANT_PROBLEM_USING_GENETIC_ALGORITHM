@@ -19,7 +19,7 @@ int main()
         Fitness(Boards, fitness);
         Sorting( fitness, chromosome);
         Board_Filler(Boards,chromosome);
-        if (iter % 1 == 0)
+        if (iter % 1000 == 0)
         {
             system("cls");
             printf("Iteration number %d\n", iter);
@@ -30,7 +30,7 @@ int main()
         if (isOver)
         {
             system("cls");
-            printf("Solution found after %d iterations!\n\n", iter);
+            printf("Solution found after %d iterations!", iter);
             Solution_Board(Boards[0]);
             Solution_points(Boards[0]);
             break;

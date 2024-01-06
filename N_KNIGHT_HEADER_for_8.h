@@ -239,7 +239,7 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__])
     }
 
     // after that we will perform mutation on the new generation
-    for (int pop = 0; pop < __POP__; pop++)
+    for (int pop = 2; pop < __POP__; pop++)
     {   // loop control variable pop starts from 2 because i don't wanna loose my first 2 fittest pops
         int checker_for_redundant_value = 0;
         int index = (rand() % __MAX__KNIGHTS__);
@@ -273,7 +273,8 @@ void Solution_points(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
             if (sol[r][c] == __KNIGHT__)
             {
                 printf("(%d,%d)", r + 1, c + 1);
-                found_knights == __MAX__KNIGHTS__ - 1 ? printf("and ") : printf(",");
+                found_knights++;
+                found_knights == __MAX__KNIGHTS__  ? printf("and ") : printf(",");
             }
         }
     }
