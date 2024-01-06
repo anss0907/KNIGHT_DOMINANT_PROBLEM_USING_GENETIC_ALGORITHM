@@ -223,42 +223,33 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
     // and will perform cross over and mutation on them
 
     // now we will perform cross over
-    for (int k = 0; k < nParents; k = k + 2)
+    for (int k = 0; k < nParents; k++)
     {
-        for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
+        if (k % 2)
         {
-            // even childs will take even values from even parents
-            if(isAlreadyIn(chromosome[k][i],chromosome[nParents+k]))
-                chromosome[nParents + k][i] = RandButNotIn(chromosome[nParents + k]);
-            else
-            chromosome[nParents + k][i] = chromosome[k][i];
-        }
-        for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
-        {
-            // even childs will take odd values from odd parents
-            if(isAlreadyIn(chromosome[k+1][i],chromosome[nParents+k]))
-                chromosome[nParents + k][i] = RandButNotIn(chromosome[nParents + k]);
-            else
-            chromosome[nParents + k][i] = chromosome[k + 1][i];
-        }
-    }
-    for (int k = 1; k < nParents; k = k + 2)
-    {
-        for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
-        {
-            // odd parents will take even values from odd parents
-            if (isAlreadyIn(chromosome[k + 1][i], chromosome[nParents + k]))
-                chromosome[nParents + k][i] = RandButNotIn(chromosome[nParents + k]);
-            else
+            for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
+            {
+                // odd parents will take even values from odd parents
                 chromosome[nParents + k][i] = chromosome[k + 1][i];
-        }
-        for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
-        {
-            // odd parents will take odd values from even parents
-            if(isAlreadyIn(chromosome[k][i],chromosome[nParents+k]))
-                chromosome[nParents+k][i]=RandButNotIn(chromosome[nParents+k]);
-            else
+            }
+            for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
+            {
+                // odd parents will take odd values from even parents
                 chromosome[nParents + k][i] = chromosome[k][i];
+            }
+        }
+        else
+        {
+            for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
+            {
+                // even childs will take even values from even parents
+                chromosome[nParents + k][i] = chromosome[k][i];
+            }
+            for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
+            {
+                // even childs will take odd values from odd parents
+                chromosome[nParents + k][i] = chromosome[k + 1][i];
+            }
         }
     }
 

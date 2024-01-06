@@ -5,12 +5,12 @@ This is being written to solve the n_KNIGHT problem using
 Genetic Algorithm.
 _______________________________________________________*/
 #include "n_KNIGHT_HEADER_for_8.h"
-/* all macros, global variables, arrays
+/* all macros, global variables, arrayss
 and user defined functionsare included in the header file*/
 int main()
 {
     srand(time(0)); // to generate random numbers
-    int isOver = 12, iter = 0, maxIter = 5000;
+    int isOver = 12, iter = 0, maxIter = 10000;
     Reset_Chrom_Board(chrom);
     RandomPOP(chrom, chromosome);
     attacks(chrom);
@@ -19,7 +19,7 @@ int main()
         iter++;
         Fitness(chrom, fitness);
         Sorting(chrom, fitness, chromosome);
-        if (iter % 1000 == 0)
+        if (iter % 100 == 0)
         {
             system("cls");
             printf("Iteration number %d\n", iter);
@@ -41,9 +41,9 @@ int main()
         Next_POP(chromosome, chrom);
         attacks(chrom);
     }
-    // int x = 3;
-    // printf("Press any key to exit...>> ");
-    // scanf("%d", &x); // to hold the screen
+    int x = 3;
+    printf("Press any key to exit...>> ");
+    scanf("%d", &x); // to hold the screen
 
     return 0;
 }
