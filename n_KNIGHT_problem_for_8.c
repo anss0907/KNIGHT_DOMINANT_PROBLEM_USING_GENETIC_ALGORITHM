@@ -41,9 +41,9 @@ int main()
         Next_POP(chromosome, chrom);
         attacks(chrom);
     }
-    int x = 3;
-    printf("Press any key to exit...>> ");
-    scanf("%d", &x); // to hold the screen
+    // int x = 3;
+    // printf("Press any key to exit...>> ");
+    // scanf("%d", &x); // to hold the screen
 
     return 0;
 }

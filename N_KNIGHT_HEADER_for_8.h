@@ -55,15 +55,15 @@ int RandButNotIn(int arr[__MAX__KNIGHTS__])
     else
         return z;
 }
-int isAlreadyIn(int a, int arr[__MAX__KNIGHTS__])
-{
-    for (int i = 0; i < __MAX__KNIGHTS__; i++)
-    {
-        if (arr[i] == a)
-            return 1;
-    }
-    return 0;
-}
+// int isAlreadyIn(int a, int arr[__MAX__KNIGHTS__])
+// {
+//     for (int i = 0; i < __MAX__KNIGHTS__; i++)
+//     {
+//         if (arr[i] == a)
+//             return 1;
+//     }
+//     return 0;
+// }
 void Reset_Chrom_Board(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__])
 {
     // initialize the chrom elements with empty spaces
@@ -254,8 +254,8 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
     }
 
     // after that we will perform mutation on the new generation
-    for (int pop = 1; pop < __POP__; pop++)
-    {
+    for (int pop = 2; pop < __POP__; pop++)
+    {   // loop control variable pop starts from 2 because i don't wanna loose my first 2 fittest pops
         int checker_for_redundant_value = 0;
         int index = (rand() % __MAX__KNIGHTS__);
         int value = RandButNotIn(chromosome[pop]);
@@ -266,7 +266,7 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
     // reseting the chrom array
     Reset_Chrom_Board(chrom);
     for (int i = 0; i < __POP__; i++)
-    {
+    {   
         for (int knights = 0; knights < __MAX__KNIGHTS__; knights++)
         {
             int row = chromosome[i][knights] / __BOARD_SIZE__;
