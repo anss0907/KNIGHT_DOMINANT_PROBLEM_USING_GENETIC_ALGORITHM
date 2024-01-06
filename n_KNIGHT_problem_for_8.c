@@ -11,19 +11,19 @@ int main()
 {
     srand(time(0)); // to generate random numbers
     int isOver = 12, iter = 0, maxIter = 10000;
-    Reset_Chrom_Board(chrom);
-    RandomPOP(chrom, chromosome);
-    attacks(chrom);
+    RandomPOP(chromosome);
+    Board_Filler(Boards,chromosome);
     while (iter < maxIter)
     {
         iter++;
-        Fitness(chrom, fitness);
-        Sorting(chrom, fitness, chromosome);
-        if (iter % 100 == 0)
+        Fitness(Boards, fitness);
+        Sorting( fitness, chromosome);
+        Board_Filler(Boards,chromosome);
+        if (iter % 1 == 0)
         {
             system("cls");
             printf("Iteration number %d\n", iter);
-            Solution_Board(chrom[0]);
+            Solution_Board(Boards[0]);
         }
         // Display_EMPTY_spaces(fitness); // for debugging purposes
         isOver = !fitness[0];
@@ -31,15 +31,15 @@ int main()
         {
             system("cls");
             printf("Solution found after %d iterations!\n\n", iter);
-            Solution_Board(chrom[0]);
-            Solution_points(chrom[0]);
+            Solution_Board(Boards[0]);
+            Solution_points(Boards[0]);
             break;
         }
         if (iter == maxIter - 1)
             printf("No solution found after %d iterations!\n\n", iter);
         // chrom will be reset in beforing next population
-        Next_POP(chromosome, chrom);
-        attacks(chrom);
+        Next_POP(chromosome);
+        Board_Filler(Boards,chromosome);
     }
     // int x = 3;
     // printf("Press any key to exit...>> ");
