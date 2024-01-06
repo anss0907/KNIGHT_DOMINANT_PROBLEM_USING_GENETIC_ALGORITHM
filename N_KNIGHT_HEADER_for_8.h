@@ -37,6 +37,33 @@ char sol[__BOARD_SIZE__][__BOARD_SIZE__];
     11. Solution_Board
 */
 // function prototypes
+int RandButNotIn(int arr[__MAX__KNIGHTS__])
+{
+    int x = __BOARD_SIZE__ * __BOARD_SIZE__ - __BOARD_SIZE__ - 2;
+    int y = __BOARD_SIZE__ + 1;
+    int z = (rand() % (x - y)) + y;
+    int r = z / __BOARD_SIZE__;
+    int c = z % __BOARD_SIZE__;
+    if (!r || r == __BOARD_SIZE__ - 1 || !c || c == __BOARD_SIZE__ - 1)
+    {
+        for (int s = 0; s < __MAX__KNIGHTS__; s++)
+        {
+            if (arr[s] == z)
+                return RandButNotIn(arr);
+        }
+    }
+    else
+        return z;
+}
+int isAlreadyIn(int a, int arr[__MAX__KNIGHTS__])
+{
+    for (int i = 0; i < __MAX__KNIGHTS__; i++)
+    {
+        if (arr[i] == a)
+            return 1;
+    }
+    return 0;
+}
 void Reset_Chrom_Board(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__])
 {
     // initialize the chrom elements with empty spaces
@@ -52,19 +79,14 @@ void Reset_Chrom_Board(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__])
 void RandomPOP(char chrom[__POP__][__BOARD_SIZE__][__BOARD_SIZE__], int chromosome[__POP__][__MAX__KNIGHTS__])
 // This function will generate values of knights randomly
 {
-    srand(time(0));
     for (int i = 0; i < __POP__; i++)
     {
         int alloted_knights = 0;
         while (alloted_knights < __MAX__KNIGHTS__)
         {
-            int x = __BOARD_SIZE__ * __BOARD_SIZE__ - __BOARD_SIZE__ - 2;
-            int y = __BOARD_SIZE__ + 1;
-            chromosome[i][alloted_knights] = (rand() % (x - y)) + y;
+            chromosome[i][alloted_knights] = RandButNotIn(chromosome[i]);
             int row = chromosome[i][alloted_knights] / __BOARD_SIZE__; // this will give us row
             int col = chromosome[i][alloted_knights] % __BOARD_SIZE__; // this will give us column
-            if (!row || row == 7 || !col || col == 7)
-                continue; // no knight should be at boundary of the board
             if (chrom[i][row][col] != __KNIGHT__)
             {
                 chrom[i][row][col] = __KNIGHT__;
@@ -206,11 +228,17 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
         for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
         {
             // even childs will take even values from even parents
+            // if(isAlreadyIn(chromosome[k][i],chromosome[nParents+k]))
+            //     chromosome[nParents + k][i] = RandButNotIn(chromosome[nParents + k]);
+            // else
             chromosome[nParents + k][i] = chromosome[k][i];
         }
         for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
         {
             // even childs will take odd values from odd parents
+            // if(isAlreadyIn(chromosome[k+1][i],chromosome[nParents+k]))
+            //     chromosome[nParents + k][i] = RandButNotIn(chromosome[nParents + k]);
+            // else
             chromosome[nParents + k][i] = chromosome[k + 1][i];
         }
     }
@@ -219,37 +247,27 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
         for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
         {
             // odd parents will take even values from odd parents
-            chromosome[nParents + k][i] = chromosome[k + 1][i];
+            if (isAlreadyIn(chromosome[k + 1][i], chromosome[nParents + k]))
+                chromosome[nParents + k][i] = RandButNotIn(chromosome[nParents + k]);
+            else
+                chromosome[nParents + k][i] = chromosome[k + 1][i];
         }
         for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
         {
             // odd parents will take odd values from even parents
-            chromosome[nParents + k][i] = chromosome[k][i];
+            if(isAlreadyIn(chromosome[k][i],chromosome[nParents+k]))
+                chromosome[nParents+k][i]=RandButNotIn(chromosome[nParents+k]);
+            else
+                chromosome[nParents + k][i] = chromosome[k][i];
         }
     }
 
     // after that we will perform mutation on the new generation
-    srand(time(0));
     for (int pop = 1; pop < __POP__; pop++)
     {
-        int checker_for_redundant_value=0;
+        int checker_for_redundant_value = 0;
         int index = (rand() % __MAX__KNIGHTS__);
-        int x = __BOARD_SIZE__ * __BOARD_SIZE__ - __BOARD_SIZE__ - 2;
-        int y = __BOARD_SIZE__ + 1;
-        int value = (rand() % (x - y)) + y;
-        for (int v = v; v < __MAX__KNIGHTS__; v++)
-        {
-            if(chromosome[pop][v]==value)
-            {
-                checker_for_redundant_value=1;
-                break;
-            }
-        }
-        if (!x || !y || x == __BOARD_SIZE__ - 1 || y == __BOARD_SIZE__ - 1||checker_for_redundant_value)
-        {
-            pop--;
-            continue;
-        }
+        int value = RandButNotIn(chromosome[pop]);
         chromosome[pop][index] = value;
         // this will give 1 random value to each population
     }
@@ -290,7 +308,7 @@ void Solution_points(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
         {
             if (sol[r][c] == __KNIGHT__)
             {
-                printf("(%d,%d)", r+1, c+1);
+                printf("(%d,%d)", r + 1, c + 1);
                 found_knights == __MAX__KNIGHTS__ - 1 ? printf("and ") : printf(",");
             }
         }

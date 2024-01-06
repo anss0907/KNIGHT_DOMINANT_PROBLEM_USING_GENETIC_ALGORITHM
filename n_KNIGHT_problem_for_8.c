@@ -9,6 +9,7 @@ _______________________________________________________*/
 and user defined functionsare included in the header file*/
 int main()
 {
+    srand(time(0)); // to generate random numbers
     int isOver = 12, iter = 0, maxIter = 5000;
     Reset_Chrom_Board(chrom);
     RandomPOP(chrom, chromosome);
@@ -18,7 +19,7 @@ int main()
         iter++;
         Fitness(chrom, fitness);
         Sorting(chrom, fitness, chromosome);
-        if (iter % 100 == 0)
+        if (iter % 1000 == 0)
         {
             system("cls");
             printf("Iteration number %d\n", iter);
