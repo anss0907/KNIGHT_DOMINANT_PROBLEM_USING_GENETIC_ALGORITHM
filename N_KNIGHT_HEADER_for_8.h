@@ -228,17 +228,17 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__], char chrom[__POP__][__B
         for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
         {
             // even childs will take even values from even parents
-            // if(isAlreadyIn(chromosome[k][i],chromosome[nParents+k]))
-            //     chromosome[nParents + k][i] = RandButNotIn(chromosome[nParents + k]);
-            // else
+            if(isAlreadyIn(chromosome[k][i],chromosome[nParents+k]))
+                chromosome[nParents + k][i] = RandButNotIn(chromosome[nParents + k]);
+            else
             chromosome[nParents + k][i] = chromosome[k][i];
         }
         for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
         {
             // even childs will take odd values from odd parents
-            // if(isAlreadyIn(chromosome[k+1][i],chromosome[nParents+k]))
-            //     chromosome[nParents + k][i] = RandButNotIn(chromosome[nParents + k]);
-            // else
+            if(isAlreadyIn(chromosome[k+1][i],chromosome[nParents+k]))
+                chromosome[nParents + k][i] = RandButNotIn(chromosome[nParents + k]);
+            else
             chromosome[nParents + k][i] = chromosome[k + 1][i];
         }
     }
