@@ -27,7 +27,7 @@ const int nParents = __POP__ / 2; // half of population will be parents
     02. RandomPOP( int chromosome[__POP__][__MAX__KNIGHTS__])
     03. Board_Filler(char Boards[__POP__][__BOARD_SIZE__][__BOARD_SIZE__],int chromosome[__POP__][__MAX__KNIGHTS__])
     04. Fitness(char Boards[__POP__][__BOARD_SIZE__][__BOARD_SIZE__], int fitness[__POP__])
-    05. swap_int(int *a, int *b)
+    05. swap(int *a, int *b)
     06. Sorting(int fitness[__POP__], int chromosome[__POP__][__MAX__KNIGHTS__])
     07. Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__])
     08. Display_EMPTY_spaces(int fitness[__POP__])
@@ -137,7 +137,7 @@ in the board will store fitness of each chrom in the fitness array*/
 
 // i will sort the chrom and fitness array on the basis of empty spaces
 
-void swap_int(int *a, int *b)
+void swap(int *a, int *b)
 // This the simple function used to swap the values
 // i checked it will work for arrays elements
 // while calling this function will use like swap(&arr[0],&arr[1]);
@@ -164,12 +164,12 @@ void Sorting(int fitness[__POP__], int chromosome[__POP__][__MAX__KNIGHTS__])
         {
             if (fitness[sp] > fitness[b])
             {
-                swap_int(&fitness[sp], &fitness[b]);
+                swap(&fitness[sp], &fitness[b]);
                 // now we will swap the chroms
                 // but the important part here
                 // the whole 2D array within chroms should be swapped
                 for (int knights = 0; knights < __MAX__KNIGHTS__; knights++)
-                    swap_int(&chromosome[sp][knights], &chromosome[b][knights]);
+                    swap(&chromosome[sp][knights], &chromosome[b][knights]);
             }
         }
     }
@@ -185,34 +185,28 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__])
     // survival of the fitest
     // so we choose first half of the population as parents
     // and will perform cross over and mutation on them
-
     // now we will perform cross over
     for (int k = 0; k < nParents; k++)
     {
-        if (k % 2)
+        for (int i = 0; i < __MAX__KNIGHTS__; i++)
         {
-            for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
-            {
-                // odd childs will take even values from odd parents
-                chromosome[nParents + k][i] = chromosome[k + 1][i];
-            }
-            for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
+            if (k % 2)
             {
                 // odd childs will take odd values from even parents
-                chromosome[nParents + k][i] = chromosome[k][i];
+                if (i % 2)
+                    chromosome[nParents + k][i] = chromosome[k - 1][i];
+                // odd childs will take even values from odd parents
+                else
+                    chromosome[nParents + k][i] = chromosome[k][i];
             }
-        }
-        else
-        {
-            for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
-            {
-                // even childs will take even values from even parents
-                chromosome[nParents + k][i] = chromosome[k][i];
-            }
-            for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
+            else
             {
                 // even childs will take odd values from odd parents
-                chromosome[nParents + k][i] = chromosome[k + 1][i];
+                if (i % 2)
+                    chromosome[nParents + k][i] = chromosome[k + 1][i];
+                // even childs will take even values from even parents
+                else
+                    chromosome[nParents + k][i] = chromosome[k][i];
             }
         }
     }

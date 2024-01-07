@@ -25,7 +25,7 @@ int main()
             printf("Iteration number %d\n", iter);
             Solution_Board(Boards[0]);
         }
-        // Display_EMPTY_spaces(fitness); // for debugging purposesk
+        // Display_EMPTY_spaces(fitness); // for debugging purposes
         isOver = !fitness[0];
         if (isOver)
         {
