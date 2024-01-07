@@ -287,6 +287,7 @@ void Solution_points(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
             if (sol[r][c] == __KNIGHT__)
             {
                 cout<<"("<<r+1<<","<<c+1<<")";
+                found_knights++;
                 found_knights == __MAX__KNIGHTS__ - 1 ? printf("and ") : printf(",");
             }
         }

@@ -124,7 +124,7 @@ def Solution_Points(chromome):
 
 # print gird
 def Solution_Board(sol):
-    print(Fore.LIGHTYELLOW_EX, end="")
+    print(Fore.CYAN, end="")
     print(" ", "-" * (2*__BOARD_SIZE__+1), sep="")
     print(" ", end="")
     for i in range(__BOARD_SIZE__):  # this will change
@@ -137,12 +137,11 @@ def Solution_Board(sol):
             if (sol[i][j] == __EMPTY__):
                 print(sol[i][j], end="")
             elif (sol[i][j] == __ATTACK__):
-                print(Fore.RED, sol[i][j], sep="", end="")
-                print(Fore.LIGHTYELLOW_EX, end="")
+                print(Fore.RED, sol[i][j],Fore.CYAN, sep="", end="")
             elif (sol[i][j] == __KNIGHT__):
-                print(Fore.MAGENTA, sol[i][j], sep="", end="")
-                print(Fore.LIGHTYELLOW_EX, end="")
+                print(Fore.MAGENTA, sol[i][j],Fore.CYAN, sep="", end="")
         print("|\n", "-" * (2*__BOARD_SIZE__+1))
+    print(Fore.RESET, end="")
     print(end="")
 
 

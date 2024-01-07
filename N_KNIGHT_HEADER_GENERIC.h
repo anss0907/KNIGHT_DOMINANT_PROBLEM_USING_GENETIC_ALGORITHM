@@ -7,32 +7,32 @@ _______________________________________________________*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include<string.h>
-#define __BOARD_SIZE__ 8
+#define __BOARD_SIZE__ 12
 #define __EMPTY__ ' '
 #define __KNIGHT__ 'O'
 #define __ATTACK__ 'X'
-#define __MAX__KNIGHTS__ 12
-#define __POP__ 200
+#define __MAX__KNIGHTS__ 2*((__BOARD_SIZE__ * __BOARD_SIZE__) / 9 + 4)
+#define __POP__ 500
 // global variables
+static int trying_knights = (__BOARD_SIZE__ * __BOARD_SIZE__) / 9 + 4;
 char Boards[__POP__][__BOARD_SIZE__][__BOARD_SIZE__]; // this is for fitness function
-int chromosome[__POP__][__MAX__KNIGHTS__];           // this is for random generation of population and next population
+int chromosome[__POP__][__MAX__KNIGHTS__];            // this is for random generation of population and next population
 int fitness[__POP__];
 const int nParents = __POP__ / 2; // half of population will be parents
 
 /*
     I have defined following functions here
     functions summary
-    01. RandButNotIn(int arr[__MAX__KNIGHTS__])
-    02. RandomPOP( int chromosome[__POP__][__MAX__KNIGHTS__])
-    03. Board_Filler(char Boards[__POP__][__BOARD_SIZE__][__BOARD_SIZE__],int chromosome[__POP__][__MAX__KNIGHTS__])
-    04. Fitness(char Boards[__POP__][__BOARD_SIZE__][__BOARD_SIZE__], int fitness[__POP__])
-    05. swap_int(int *a, int *b)
-    06. Sorting(int fitness[__POP__], int chromosome[__POP__][__MAX__KNIGHTS__])
-    07. Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__])
-    08. Display_EMPTY_spaces(int fitness[__POP__])
-    09. Solution_points(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
-    10. Solution_Board(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
+    1. RandButNotIn
+    2. RandomPOP
+    3. Board_Filler
+    4. Fitness
+    5. swap_int
+    6. Sorting
+    7. Next_POP
+    8. Display_EMPTY_spaces
+    9. Solution_points
+    10. Solution_Board
 */
 // function prototypes
 int RandButNotIn(int arr[__MAX__KNIGHTS__])
@@ -44,7 +44,7 @@ int RandButNotIn(int arr[__MAX__KNIGHTS__])
     int c = z % __BOARD_SIZE__;
     if (!r || r == __BOARD_SIZE__ - 1 || !c || c == __BOARD_SIZE__ - 1)
     {
-        for (int s = 0; s < __MAX__KNIGHTS__; s++)
+        for (int s = 0; s < trying_knights; s++)
         {
             if (arr[s] == z)
                 return RandButNotIn(arr);
@@ -53,22 +53,22 @@ int RandButNotIn(int arr[__MAX__KNIGHTS__])
     else
         return z;
 }
-void RandomPOP( int chromosome[__POP__][__MAX__KNIGHTS__])
+void RandomPOP(int chromosome[__POP__][__MAX__KNIGHTS__])
 // This function will generate values of knights randomly
 {
     for (int i = 0; i < __POP__; i++)
     {
         int alloted_knights = 0;
-        while (alloted_knights < __MAX__KNIGHTS__)
+        while (alloted_knights < trying_knights)
         {
             chromosome[i][alloted_knights] = RandButNotIn(chromosome[i]);
             alloted_knights++;
         }
     }
 }
-void Board_Filler(char Boards[__POP__][__BOARD_SIZE__][__BOARD_SIZE__],int chromosome[__POP__][__MAX__KNIGHTS__])
+void Board_Filler(char Boards[__POP__][__BOARD_SIZE__][__BOARD_SIZE__], int chromosome[__POP__][__MAX__KNIGHTS__])
 // This function will mark the attacks of the knights
-{   // reseting the board
+{ // reseting the board
     for (int p = 0; p < __POP__; p++)
     {
         for (int r = 0; r < __BOARD_SIZE__; r++)
@@ -80,12 +80,12 @@ void Board_Filler(char Boards[__POP__][__BOARD_SIZE__][__BOARD_SIZE__],int chrom
     // positioning Knights
     for (int pop = 0; pop < __POP__; pop++)
     {
-        for (int k = 0; k < __MAX__KNIGHTS__; k++)
+        for (int k = 0; k < trying_knights; k++)
         {
             int row = chromosome[pop][k] / __BOARD_SIZE__;
             int col = chromosome[pop][k] % __BOARD_SIZE__;
             Boards[pop][row][col] = __KNIGHT__;
-        }   
+        }
     }
     for (int p = 0; p < __POP__; p++)
     {
@@ -178,7 +178,7 @@ void Sorting(int fitness[__POP__], int chromosome[__POP__][__MAX__KNIGHTS__])
                 // now we will swap the chroms
                 // but the important part here
                 // the whole 2D array within chroms should be swapped
-                for (int knights = 0; knights < __MAX__KNIGHTS__; knights++)
+                for (int knights = 0; knights < trying_knights; knights++)
                     swap_int(&chromosome[sp][knights], &chromosome[b][knights]);
             }
         }
@@ -201,25 +201,25 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__])
     {
         if (k % 2)
         {
-            for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
+            for (int i = 0; i < trying_knights; i += 2)
             {
-                // odd childs will take even values from odd parents
+                // odd parents will take even values from odd parents
                 chromosome[nParents + k][i] = chromosome[k + 1][i];
             }
-            for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
+            for (int i = 1; i < trying_knights; i += 2)
             {
-                // odd childs will take odd values from even parents
+                // odd parents will take odd values from even parents
                 chromosome[nParents + k][i] = chromosome[k][i];
             }
         }
         else
         {
-            for (int i = 0; i < __MAX__KNIGHTS__; i += 2)
+            for (int i = 0; i < trying_knights; i += 2)
             {
                 // even childs will take even values from even parents
                 chromosome[nParents + k][i] = chromosome[k][i];
             }
-            for (int i = 1; i < __MAX__KNIGHTS__; i += 2)
+            for (int i = 1; i < trying_knights; i += 2)
             {
                 // even childs will take odd values from odd parents
                 chromosome[nParents + k][i] = chromosome[k + 1][i];
@@ -229,9 +229,9 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__])
 
     // after that we will perform mutation on the new generation
     for (int pop = 2; pop < __POP__; pop++)
-    {   // loop control variable pop starts from 2 because i don't wanna loose my first 2 fittest pops
+    { // loop control variable pop starts from 2 because i don't wanna loose my first 2 fittest pops
         int checker_for_redundant_value = 0;
-        int index = (rand() % __MAX__KNIGHTS__);
+        int index = (rand() % trying_knights);
         int value = RandButNotIn(chromosome[pop]);
         chromosome[pop][index] = value;
         // this will give 1 random value to each population
@@ -263,32 +263,45 @@ void Solution_points(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
             {
                 printf("(%d,%d)", r + 1, c + 1);
                 found_knights++;
-                found_knights == __MAX__KNIGHTS__  ? printf("and ") : printf(",");
+                found_knights == trying_knights - 1 ? printf("and ") : printf(",");
             }
         }
     }
     printf("\nNo. of knights in this solution = %d\n", found_knights);
 }
+void print_line(int count)
+{
+    printf("\n");
+    for (int i = 0; i < count * 3 + 3; i++)
+    {
+        printf("-");
+    }
+    printf("\n");
+}
 void Solution_Board(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
 {
-    printf("\n -----------------\n");
-    printf(" ");
+    print_line(__BOARD_SIZE__);
+    printf("  ");
     for (int i = 0; i < __BOARD_SIZE__; i++) // this will change
-        printf("|%d", i + 1);
-    printf("|\n -----------------\n");
+        printf("|%2d", i + 1);
+    printf("|");
+    print_line(__BOARD_SIZE__);
     for (int i = 0; i < __BOARD_SIZE__; i++)
     {
-        printf("%d", i + 1);
+        printf("%2d", i + 1);
         for (int j = 0; j < __BOARD_SIZE__; j++)
         {
-            if (sol[i][j] == __EMPTY__)
-                printf("|%c", sol[i][j]);
-            else if (sol[i][j] == __ATTACK__)
-                printf("|\033[0;31m%c\033[0m", sol[i][j]); // red
-            else if (sol[i][j] == __KNIGHT__)
-                printf("|\033[0;34m%c\033[0m", sol[i][j]); // blue
+            if (sol[i][j] == ' ')
+                printf("|%2c", sol[i][j]);
+            else if (sol[i][j] == 'O')
+                printf("|\033[0;31m%2c\033[0m", sol[i][j]); // red
+            // change 'O' to knight soon
+            else if (sol[i][j] == 'X')
+                printf("|\033[0;34m%2c\033[0m", sol[i][j]); // blue
+            // will change 'X' to attack soon
         }
-        printf("|\n -----------------\n");
+        printf("|");
+        print_line(__BOARD_SIZE__);
     }
 }
 

@@ -10,20 +10,20 @@ and user defined functionsare included in the header file*/
 int main()
 {
     srand(time(0)); // to generate random numbers
-    int isOver = 12, iter = 0, maxIter = 10000;
+    int isOver = 0, iter = 0, maxIter = 10000;
     RandomPOP(chromosome);
-    Board_Filler(Boards,chromosome);
+    Board_Filler(Boards, chromosome);
     while (iter < maxIter)
     {
         iter++;
         Fitness(Boards, fitness);
-        Sorting( fitness, chromosome);
-        Board_Filler(Boards,chromosome);
-        if (iter % 100 == 0)
+        Sorting(fitness, chromosome);
+        Board_Filler(Boards, chromosome);
+        if (iter % 1000 == 0)
         {
-            system("cls");
+            // system("cls");
             printf("Iteration number %d\n", iter);
-            Solution_Board(Boards[0]);
+            // Solution_Board(Boards[0]);
         }
         // Display_EMPTY_spaces(fitness); // for debugging purposes
         isOver = !fitness[0];
@@ -36,10 +36,18 @@ int main()
             break;
         }
         if (iter == maxIter - 1)
-            printf("No solution found after %d iterations!\n\n", iter);
+        {
+
+            printf("No solution found for %d knights\n\n", trying_knights);
+            if (trying_knights < __MAX__KNIGHTS__)
+            {
+                trying_knights++;
+                main();
+            }
+        }
         // chrom will be reset in beforing next population
         Next_POP(chromosome);
-        Board_Filler(Boards,chromosome);
+        Board_Filler(Boards, chromosome);
     }
     // int x = 3;
     // printf("Press any key to exit...>> ");
