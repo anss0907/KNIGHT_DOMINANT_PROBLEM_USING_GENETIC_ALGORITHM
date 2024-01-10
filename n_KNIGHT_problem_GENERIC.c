@@ -50,9 +50,9 @@ int main()
         Next_POP(chromosome);
         Board_Filler(Boards, chromosome);
     }
-    // int x = 3;
-    // printf("Press any key to exit...>> ");
-    // scanf("%d", &x); // to hold the screen
+    int x = 3;
+    printf("Press any key to exit...>> ");
+    scanf("%d", &x); // to hold the screen
 
     return 0;
 }
