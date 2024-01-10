@@ -18,8 +18,7 @@ for i in range(__BOARD_SIZE__ * __BOARD_SIZE__):
         Possible_Positions.append(i)
 # print(Possible_Positions)
 # chrom is for fitness funciton whereas chromosome is to generate random population
-chrom = [[[" " for i in range(__BOARD_SIZE__)] for c in range(__BOARD_SIZE__)]
-         for p in range(__POP__)]
+chrom = [[[" " for i in range(__BOARD_SIZE__)] for c in range(__BOARD_SIZE__)]for p in range(__POP__)]
 # this is equiavalent to reset the boards
 chromosome = [
     sample(Possible_Positions, __MAX__KNIGHTS__) for p in range(__POP__)

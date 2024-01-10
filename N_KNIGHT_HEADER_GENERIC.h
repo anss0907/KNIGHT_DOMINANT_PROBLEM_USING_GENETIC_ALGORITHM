@@ -7,14 +7,14 @@ _______________________________________________________*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define __BOARD_SIZE__ 12
+#define __BOARD_SIZE__ 8
 #define __EMPTY__ ' '
 #define __KNIGHT__ 'O'
 #define __ATTACK__ 'X'
 #define __MAX__KNIGHTS__ 2*((__BOARD_SIZE__ * __BOARD_SIZE__) / 9 + 4)
 #define __POP__ 500
 // global variables
-static int trying_knights = (__BOARD_SIZE__ * __BOARD_SIZE__) / 9 + 4;
+static int trying_knights = (__BOARD_SIZE__ * __BOARD_SIZE__) / 9 + 5;
 char Boards[__POP__][__BOARD_SIZE__][__BOARD_SIZE__]; // this is for fitness function
 int chromosome[__POP__][__MAX__KNIGHTS__];            // this is for random generation of population and next population
 int fitness[__POP__];
@@ -199,30 +199,25 @@ void Next_POP(int chromosome[__POP__][__MAX__KNIGHTS__])
     // now we will perform cross over
     for (int k = 0; k < nParents; k++)
     {
-        if (k % 2)
+        for (int i = 0; i < trying_knights; i++)
         {
-            for (int i = 0; i < trying_knights; i += 2)
+            if (k % 2)
             {
-                // odd parents will take even values from odd parents
-                chromosome[nParents + k][i] = chromosome[k + 1][i];
+                // odd childs will take odd values from even parents
+                if (i % 2)
+                    chromosome[nParents + k][i] = chromosome[k - 1][i];
+                // odd childs will take even values from odd parents
+                else
+                    chromosome[nParents + k][i] = chromosome[k][i];
             }
-            for (int i = 1; i < trying_knights; i += 2)
-            {
-                // odd parents will take odd values from even parents
-                chromosome[nParents + k][i] = chromosome[k][i];
-            }
-        }
-        else
-        {
-            for (int i = 0; i < trying_knights; i += 2)
-            {
-                // even childs will take even values from even parents
-                chromosome[nParents + k][i] = chromosome[k][i];
-            }
-            for (int i = 1; i < trying_knights; i += 2)
+            else
             {
                 // even childs will take odd values from odd parents
-                chromosome[nParents + k][i] = chromosome[k + 1][i];
+                if (i % 2)
+                    chromosome[nParents + k][i] = chromosome[k + 1][i];
+                // even childs will take even values from even parents
+                else
+                    chromosome[nParents + k][i] = chromosome[k][i];
             }
         }
     }
@@ -291,14 +286,16 @@ void Solution_Board(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
         printf("%2d", i + 1);
         for (int j = 0; j < __BOARD_SIZE__; j++)
         {
-            if (sol[i][j] == ' ')
-                printf("|%2c", sol[i][j]);
-            else if (sol[i][j] == 'O')
-                printf("|\033[0;31m%2c\033[0m", sol[i][j]); // red
+            printf("|");
+            if (sol[i][j] == __EMPTY__)
+                printf("%2c", sol[i][j]);
+            else if (sol[i][j] == __KNIGHT__)
+                printf(" \033[0;32m\u265E"); 
             // change 'O' to knight soon
-            else if (sol[i][j] == 'X')
-                printf("|\033[0;34m%2c\033[0m", sol[i][j]); // blue
+            else if (sol[i][j] == __ATTACK__)
+                printf("\033[0;31m%2c", sol[i][j]); 
             // will change 'X' to attack soon
+            printf("\033[0m");
         }
         printf("|");
         print_line(__BOARD_SIZE__);

@@ -9,6 +9,7 @@ _______________________________________________________*/
 and user defined functionsare included in the header file*/
 int main()
 {
+    system("chcp 65001 >nul 2>&1");
     srand(time(0)); // to generate random numbers
     int isOver = 12, iter = 0, maxIter = 10000;
     RandomPOP(chromosome);
@@ -21,7 +22,7 @@ int main()
         Board_Filler(Boards,chromosome);
         if (iter % 100 == 0)
         {
-            system("cls");
+            system("cls ");
             printf("Iteration number %d\n", iter);
             Solution_Board(Boards[0]);
         }

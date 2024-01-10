@@ -4,11 +4,12 @@ _________________________________________________________
 This is being written to solve the n_KNIGHT problem using
 Genetic Algorithm.
 _______________________________________________________*/
-#include "n_KNIGHT_HEADER_for_8.h"
+#include "N_KNIGHT_HEADER_GENERIC.h"
 /* all macros, global variables, arrays
 and user defined functionsare included in the header file*/
 int main()
 {
+    system("chcp 65001 >nul 2>&1");
     srand(time(0)); // to generate random numbers
     int isOver = 0, iter = 0, maxIter = 10000;
     RandomPOP(chromosome);
@@ -21,9 +22,9 @@ int main()
         Board_Filler(Boards, chromosome);
         if (iter % 1000 == 0)
         {
-            // system("cls");
+            system("cls");
             printf("Iteration number %d\n", iter);
-            // Solution_Board(Boards[0]);
+            Solution_Board(Boards[0]);
         }
         // Display_EMPTY_spaces(fitness); // for debugging purposes
         isOver = !fitness[0];

@@ -264,12 +264,13 @@ void Solution_Board(char sol[__BOARD_SIZE__][__BOARD_SIZE__])
         printf("%d", i + 1);
         for (int j = 0; j < __BOARD_SIZE__; j++)
         {
+            printf("|");
             if (sol[i][j] == __EMPTY__)
-                printf("|%c", sol[i][j]);
+                printf("%c", sol[i][j]);
             else if (sol[i][j] == __ATTACK__)
-                printf("|\033[0;31m%c\033[0m", sol[i][j]); // red
+                printf("\033[0;31m%c\033[0m", sol[i][j]); // red
             else if (sol[i][j] == __KNIGHT__)
-                printf("|\033[0;34m%c\033[0m", sol[i][j]); // blue
+                printf("\033[0;34m\u265E\033[0m", sol[i][j]); // blue
         }
         printf("|\n -----------------\n");
     }
