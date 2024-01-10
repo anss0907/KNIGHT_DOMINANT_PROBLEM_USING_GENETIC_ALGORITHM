@@ -14,7 +14,7 @@ _______________________________________________________*/
 #define __MAX__KNIGHTS__ 2*((__BOARD_SIZE__ * __BOARD_SIZE__) / 9 + 4)
 #define __POP__ 500
 // global variables
-static int trying_knights = (__BOARD_SIZE__ * __BOARD_SIZE__) / 9 + 5;
+static int trying_knights = (__BOARD_SIZE__ * __BOARD_SIZE__) / 9 + 4;
 char Boards[__POP__][__BOARD_SIZE__][__BOARD_SIZE__]; // this is for fitness function
 int chromosome[__POP__][__MAX__KNIGHTS__];            // this is for random generation of population and next population
 int fitness[__POP__];
