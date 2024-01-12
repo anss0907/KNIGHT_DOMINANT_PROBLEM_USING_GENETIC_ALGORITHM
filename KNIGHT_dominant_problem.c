@@ -4,7 +4,7 @@ _________________________________________________________
 This is being written to solve the n_KNIGHT problem using
 Genetic Algorithm.
 _______________________________________________________*/
-#include "N_KNIGHT_HEADER_GENERIC.h"
+#include "KNIGHT_dominant_HEADER_GENERIC.h"
 /* all macros, global variables, arrays
 and user defined functionsare included in the header file*/
 int main()

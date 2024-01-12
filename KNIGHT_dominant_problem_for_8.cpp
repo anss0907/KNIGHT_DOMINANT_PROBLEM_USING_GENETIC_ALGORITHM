@@ -1,5 +1,5 @@
 // this is c++ version of the n_KNIGHT_problem_for_8.py
-#include "N_KNIGHT_HEADER_for_8.hpp"
+#include "KNIGHT_dominant_HEADER_for_8.hpp"
 
 int main()
 {
